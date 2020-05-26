@@ -64,7 +64,7 @@ Now we can create new role
 ```bash
 $ CREATE ROLE alchrist WITH LOGIN PASSWORD '168';
 $ ALTER ROLE ALCHRIST CREATEDB;
-$ '\q'
+$ \q
 ```
 Try login with new role just created.
 ```bash
