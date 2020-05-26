@@ -16,9 +16,9 @@
 - We will use this message to fetch some data from 3rd party.
 - if response was successful then we will use UPSERT operation to insert the data to our postgre db.
 - if response was not successful then we will just requeue the nsq message.
-- To ensure our system is fully reliable if our endpoint rps is high, you can try this locally by executing the `test.sh`, this script will try to curl our endpoint with unique subnet `xxx.xxx.(1-100)` as req.body.
+- To ensure our system is fully reliable if our endpoint rps is high, you can try this locally by executing the `test.sh`, this script will try to curl our endpoint with unique subnet `xxx.xxx.(1-100)` as req.body, you can run the bash script:
 ```bash
-test.sh
+bash test.sh
 ```
 
 ## How to start
