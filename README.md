@@ -54,7 +54,7 @@ yarn dev
 In order to bootstrap the database system, a freshly initialized system always contains one predefined role. This role is always a "superuser", and by default (unless altered when running initdb) it will have the same name as the operating system user that initialized the database cluster. Customarily, this role will be named `postgres`. In order to create more roles you first have to connect as "superuser" initial role. If error occured on your postgres, eg: role `alchrist` does not exist. Then you need to add new role manually.
 
 ```bash
-$ docker exec -it <POSTGRES_CONTAINER_NAME>
+$ docker exec -it <POSTGRES_CONTAINER_NAME> bash
 ```
 In order to create a new role, first we need to login using superuser in psql cli
 ```bash
