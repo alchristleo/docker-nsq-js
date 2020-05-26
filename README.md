@@ -48,7 +48,7 @@ Now we can create new role
 ```bash
 $ CREATE ROLE alchrist WITH LOGIN PASSWORD '168';
 $ ALTER ROLE ALCHRIST CREATEDB;
-$ '\q'
+$ \q
 ```
 Try login with new role just created.
 ```bash
@@ -90,7 +90,7 @@ If it returns `OK` then your topic has been successfully created, to verify it y
 - if response was not successful then we will just requeue the nsq message.
 - To ensure our system is fully reliable if our endpoint rps is high, you can try this locally by executing the `test.sh`, this script will try to curl our endpoint with unique subnet `xxx.xxx.(1-100)` as req.body.
 ```bash
-test.sh
+bash test.sh
 ```
 
 ### Glossary
