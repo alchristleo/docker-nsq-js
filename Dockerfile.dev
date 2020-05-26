@@ -1,0 +1,5 @@
+FROM node:12.13.0
+WORKDIR /code/
+COPY ./package.json /
+COPY ./yarn.lock /
+RUN cd / && yarn

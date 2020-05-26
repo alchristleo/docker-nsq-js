@@ -31,5 +31,33 @@ services:
     ports:
       - "4171:4171"
     restart: always
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=${postgres_user}
+      - POSTGRES_PASSWORD=${postgres_password}
+      - POSTGRES_DB=${postgres_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ${postgres_data_path}:/var/lib/postgresql/data
+  client-server:
+    build:
+      dockerfile: ./Dockerfile.dev
+      context: ./
+    volumes:
+      - ./api:/api
+      - ./nsq:/nsq
+      - ./postgres:/postgres
+      - ./config:/config
+      - ./tsconfig.json:/tsconfig.json
+      - ./server:/code
+    ports:
+      - 3000:3000
+    restart: always
+    command: ../node_modules/.bin/ts-node-dev --transpile-only ./server.ts
+    env_file:
+      - ./.env
 networks:
   default:
