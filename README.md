@@ -5,6 +5,22 @@
 - Node
 - Your favorite postgre rdms
 
+![Alt text](diagram.png?raw=true "Image 1")
+
+## How It Works
+- Basically our express app will init postgres connection and postgres models
+- Our nsqjs library will be init on start up and immediately listen to specific topic that we defined
+- Also we will expose our local express endpoint `/subnet` that is running in port 3000, this endpoint will receive a post request with request body the subnet ip.
+- After that we will push the subnet ip as json format and we will use our nsqjs client to publish the topic into our nsq server
+- Once the topic published, our nsqjs that already listen to that topic will consume the message.
+- We will use this message to fetch some data from 3rd party.
+- if response was successful then we will use UPSERT operation to insert the data to our postgre db.
+- if response was not successful then we will just requeue the nsq message.
+- To ensure our system is fully reliable if our endpoint rps is high, you can try this locally by executing the `test.sh`, this script will try to curl our endpoint with unique subnet `xxx.xxx.(1-100)` as req.body.
+```bash
+test.sh
+```
+
 ## How to start
 
 ### There are 2 ways to start the app
@@ -78,20 +94,6 @@ curl --location --request POST 'http://localhost:4151/pub?topic=test' \
 }'
 ```
 If it returns `OK` then your topic has been successfully created, to verify it you can open in nsqdamin ui http://localhost:4171/topics/test
-
-## How It Works
-- Basically our express app will init postgres connection and postgres models
-- Our nsqjs library will be init on start up and immediately listen to specific topic that we defined
-- Also we will expose our local express endpoint `/subnet` that is running in port 3000, this endpoint will receive a post request with request body the subnet ip.
-- After that we will push the subnet ip as json format and we will use our nsqjs client to publish the topic into our nsq server
-- Once the topic published, our nsqjs that already listen to that topic will consume the message.
-- We will use this message to fetch some data from 3rd party.
-- if response was successful then we will use UPSERT operation to insert the data to our postgre db.
-- if response was not successful then we will just requeue the nsq message.
-- To ensure our system is fully reliable if our endpoint rps is high, you can try this locally by executing the `test.sh`, this script will try to curl our endpoint with unique subnet `xxx.xxx.(1-100)` as req.body.
-```bash
-test.sh
-```
 
 ### Glossary
 - UPSERT? It stands for `INSERT ... ON CONFLICT UPDATE` [wiki](https://wiki.postgresql.org/wiki/UPSERT) this will ensure that our table has no duplicate UNIQUE key. If unique key already exists, we just update the other field value, if not exist, new row will be created.
